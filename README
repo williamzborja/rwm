@@ -1,0 +1,86 @@
+# Modern DWM project
+
+This is an open source project with goal to modernize DWM(Dynamic Window Manager) add documentation
+and developer manual to play with this efficient and beautiful WM.
+
+**dwm - dynamic window manager: is an extremely fast, small, and dynamic window manager for X**.
+
+## Motivation
+
+I try use windows manager because I want learn about graphics software with C.
+I set config.h file without understand all internal behavior and when I see dwm.c file
+receive 3000 lines of code it's code is amazing but with really bad maintainability and readability if I
+take the time to debug and understand this code I want share this because C is simple language but
+commonly place to code for machine but not for humans my goals is be this manager easier to learn internal parts.
+
+## Goals
+
+1. debug code and understand how it works.
+2. Refactor code and build documentation
+3. Add cmake and testing and add
+4. Plan modern structure and add doc
+5. change from  C to Rust Dynamic Windows manager and add doc.
+6. Add patch to work in Mac and modern linux sorry windows.
+7. Add modern plugins manager.
+
+## Structure
+
+I want separate all things dwm file have 300 lines
+
+
+the desire structure is:
+
+- config
+- src
+- test
+- build
+- plugins
+
+#
+
+
+
+
+Requirements
+------------
+In order to build dwm you need the Xlib header files.
+
+
+Installation
+------------
+Edit config.mk to match your local setup (dwm is installed into
+the /usr/local namespace by default).
+
+Afterwards enter the following command to build and install dwm (if
+necessary as root):
+
+    make clean install
+
+
+Running dwm
+-----------
+Add the following line to your .xinitrc to start dwm using startx:
+
+    exec dwm
+
+In order to connect dwm to a specific display, make sure that
+the DISPLAY environment variable is set correctly, e.g.:
+
+    DISPLAY=foo.bar:1 exec dwm
+
+(This will start dwm on display :1 of the host foo.bar.)
+
+In order to display status info in the bar, you can do something
+like this in your .xinitrc:
+
+    while xsetroot -name "`date` `uptime | sed 's/.*,//'`"
+    do
+    	sleep 1
+    done &
+    exec dwm
+
+
+Configuration
+-------------
+The configuration of dwm is done by creating a custom config.h
+and (re)compiling the source code.
