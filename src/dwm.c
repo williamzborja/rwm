@@ -21,7 +21,7 @@
  * To understand everything else, start reading main().
  */
 
-#include "dwm.h"
+#include "./dwm.h"
 #include "drw/drw.h"
 #include "util.h"
 
