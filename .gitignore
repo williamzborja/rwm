@@ -1,3 +1,6 @@
 *.o
 .ccls-cache
 dwm
+.idea
+cmake-build-debug
+CMakeFiles
