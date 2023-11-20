@@ -6,12 +6,7 @@ and developer manual to play with this efficient and beautiful WM.
 **dwm - dynamic window manager: is an extremely fast, small, and dynamic window manager for X**.
 
 ## Motivation
-
-I try use windows manager because I want learn about graphics software with C.
-I set config.h file without understand all internal behavior and when I see dwm.c file
-receive 3000 lines of code it's code is amazing but with really bad maintainability and readability if I
-take the time to debug and understand this code I want share this because C is simple language but
-commonly place to code for machine but not for humans my goals is be this manager easier to learn internal parts.
+I want to learn Windows Servers concepts but the DWM code is really complex to understand
 
 ## Goals
 
@@ -84,3 +79,8 @@ Configuration
 -------------
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
+
+
+```bash
+brew install fontconfig freetype libxft libx11 libxinerama
+```

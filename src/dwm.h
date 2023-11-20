@@ -20,5 +20,6 @@
 #include <X11/Xft/Xft.h>
 #include <X11/extensions/Xinerama.h>
 
+int run_dwm(int argc, char *argv[]);
 #endif
 

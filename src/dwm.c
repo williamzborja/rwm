@@ -22,8 +22,10 @@
  */
 
 #include "./dwm.h"
-#include "drw/drw.h"
+#include "lib/drw.h"
 #include "util.h"
+#include "lib/monitor.h"
+#include "lib/enums.h"
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
@@ -38,129 +40,16 @@
 #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 
-/* enums */
-enum {
-    CurNormal, CurResize, CurMove, CurLast
-}; /* cursor */
-enum {
-    SchemeNorm, SchemeSel
-}; /* color schemes */
-enum {
-    NetSupported, NetWMName, NetWMState, NetWMCheck,
-    NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-    NetWMWindowTypeDialog, NetClientList, NetLast
-}; /* EWMH atoms */
-enum {
-    WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast
-}; /* default atoms */
-enum {
-    ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
-    ClkClientWin, ClkRootWin, ClkLast
-}; /* clicks */
-
-typedef union {
-    int i;
-    unsigned int ui;
-    float f;
-    const void *v;
-} Arg;
-
-typedef struct {
-    unsigned int click;
-    unsigned int mask;
-    unsigned int button;
-
-    void (*func)(const Arg *arg);
-
-    const Arg arg;
-} Button;
-
 typedef struct Monitor Monitor;
-typedef struct Client Client;
-struct Client {
-    char name[256];
-    float mina, maxa;
-    int x, y, w, h;
-    int oldx, oldy, oldw, oldh;
-    int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
-    int bw, oldbw;
-    unsigned int tags;
-    int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
-    Client *next;
-    Client *snext;
-    Monitor *mon;
-    Window win;
-};
-
-typedef struct {
-    unsigned int mod;
-    KeySym keysym;
-
-    void (*func)(const Arg *);
-
-    const Arg arg;
-} Key;
-
-typedef struct {
-    const char *symbol;
-
-    void (*arrange)(Monitor *);
-} Layout;
-
-struct Monitor {
-    char ltsymbol[16];
-    float mfact;
-    int nmaster;
-    int num;
-    int by;               /* bar geometry */
-    int mx, my, mw, mh;   /* screen size */
-    int wx, wy, ww, wh;   /* window area  */
-    unsigned int seltags;
-    unsigned int sellt;
-    unsigned int tagset[2];
-    int showbar;
-    int topbar;
-    Client *clients;
-    Client *sel;
-    Client *stack;
-    Monitor *next;
-    Window barwin;
-    const Layout *lt[2];
-};
-
-typedef struct {
-    const char *class;
-    const char *instance;
-    const char *title;
-    unsigned int tags;
-    int isfloating;
-    int monitor;
-} Rule;
 
 /* function declarations */
-static void applyrules(Client *c);
-
-static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
-
-static void arrange(Monitor *m);
-
-static void arrangemon(Monitor *m);
-
-static void attach(Client *c);
-
-static void attachstack(Client *c);
-
 static void buttonpress(XEvent *e);
 
 static void checkotherwm(void);
 
 static void cleanup(void);
 
-static void cleanupmon(Monitor *mon);
-
 static void clientmessage(XEvent *e);
-
-static void configure(Client *c);
 
 static void configurenotify(XEvent *e);
 
@@ -170,13 +59,7 @@ static Monitor *createmon(void);
 
 static void destroynotify(XEvent *e);
 
-static void detach(Client *c);
-
-static void detachstack(Client *c);
-
 static Monitor *dirtomon(int dir);
-
-static void drawbar(Monitor *m);
 
 static void drawbars(void);
 
@@ -184,13 +67,7 @@ static void enternotify(XEvent *e);
 
 static void expose(XEvent *e);
 
-static void focus(Client *c);
-
 static void focusin(XEvent *e);
-
-static void focusmon(const Arg *arg);
-
-static void focusstack(const Arg *arg);
 
 static Atom getatomprop(Client *c, Atom prop);
 
@@ -200,15 +77,9 @@ static long getstate(Window w);
 
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 
-static void grabbuttons(Client *c, int focused);
-
 static void grabkeys(void);
 
-static void incnmaster(const Arg *arg);
-
 static void keypress(XEvent *e);
-
-static void killclient(const Arg *arg);
 
 static void manage(Window w, XWindowAttributes *wa);
 
@@ -220,23 +91,9 @@ static void monocle(Monitor *m);
 
 static void motionnotify(XEvent *e);
 
-static void movemouse(const Arg *arg);
-
-static Client *nexttiled(Client *c);
-
-static void pop(Client *c);
-
 static void propertynotify(XEvent *e);
 
-static void quit(const Arg *arg);
-
 static Monitor *recttomon(int x, int y, int w, int h);
-
-static void resize(Client *c, int x, int y, int w, int h, int interact);
-
-static void resizeclient(Client *c, int x, int y, int w, int h);
-
-static void resizemouse(const Arg *arg);
 
 static void restack(Monitor *m);
 
@@ -244,19 +101,9 @@ static void run(void);
 
 static void scan(void);
 
-static int sendevent(Client *c, Atom proto);
-
 static void sendmon(Client *c, Monitor *m);
 
-static void setclientstate(Client *c, long state);
-
-static void setfocus(Client *c);
-
 static void setfullscreen(Client *c, int fullscreen);
-
-static void setlayout(const Arg *arg);
-
-static void setmfact(const Arg *arg);
 
 static void setup(void);
 
@@ -264,25 +111,7 @@ static void seturgent(Client *c, int urg);
 
 static void showhide(Client *c);
 
-static void spawn(const Arg *arg);
-
-static void tag(const Arg *arg);
-
-static void tagmon(const Arg *arg);
-
 static void tile(Monitor *m);
-
-static void togglebar(const Arg *arg);
-
-static void togglefloating(const Arg *arg);
-
-static void toggletag(const Arg *arg);
-
-static void toggleview(const Arg *arg);
-
-static void unfocus(Client *c, int setfocus);
-
-static void unmanage(Client *c, int destroyed);
 
 static void unmapnotify(XEvent *e);
 
@@ -296,19 +125,8 @@ static int updategeom(void);
 
 static void updatenumlockmask(void);
 
-static void updatesizehints(Client *c);
-
 static void updatestatus(void);
 
-static void updatetitle(Client *c);
-
-static void updatewindowtype(Client *c);
-
-static void updatewmhints(Client *c);
-
-static void view(const Arg *arg);
-
-static Client *wintoclient(Window w);
 
 static Monitor *wintomon(Window w);
 
@@ -317,8 +135,6 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
-
-static void zoom(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -359,6 +175,8 @@ static Window root, wmcheckwin;
 
 /* configuration, allows nested code to access above variables */
 #include "../config.h"
+#include "lib/rule.h"
+#include "lib/Arg.h"
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags {
@@ -552,6 +370,24 @@ checkotherwm(void) {
     XSync(dpy, False);
 }
 
+
+
+void
+cleanupmon(Monitor *mon) {
+    Monitor *m;
+
+    if (mon == mons)
+        mons = mons->next;
+    else {
+        for (m = mons; m && m->next != mon; m = m->next);
+        m->next = mon->next;
+    }
+    XUnmapWindow(dpy, mon->barwin);
+    XDestroyWindow(dpy, mon->barwin);
+    free(mon);
+}
+
+
 void
 cleanup(void) {
     Arg a = {.ui = ~0};
@@ -577,21 +413,6 @@ cleanup(void) {
     XSync(dpy, False);
     XSetInputFocus(dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
     XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
-}
-
-void
-cleanupmon(Monitor *mon) {
-    Monitor *m;
-
-    if (mon == mons)
-        mons = mons->next;
-    else {
-        for (m = mons; m && m->next != mon; m = m->next);
-        m->next = mon->next;
-    }
-    XUnmapWindow(dpy, mon->barwin);
-    XDestroyWindow(dpy, mon->barwin);
-    free(mon);
 }
 
 void
@@ -2013,7 +1834,7 @@ updatesizehints(Client *c) {
 void
 updatestatus(void) {
     if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-        strcpy(stext, "dwm-"VERSION);
+        strcpy(stext, "dwm-");
     drawbar(selmon);
 }
 
@@ -2137,9 +1958,9 @@ zoom(const Arg *arg) {
     pop(c);
 }
 
-int main(int argc, char *argv[]) {
+int run_dwm(int argc, char *argv[]) {
     if (argc == 2 && !strcmp("-v", argv[1]))
-        die("dwm-"VERSION);
+        die("dwm-");
     else if (argc != 1)
         die("usage: dwm [-v]");
     if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
