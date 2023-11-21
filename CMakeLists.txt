@@ -32,8 +32,6 @@ add_executable(dwm src/main.c
         src/lib/cursor.h
         src/lib/xft/fnt.h
         src/lib/dwm_lib.h
-        src/lib/args.c
-        src/lib/func_impl.c
         src/lib/x11/display.h
         src/lib/x11/window.h
         src/lib/x11/xevent.h
