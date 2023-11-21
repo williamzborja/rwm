@@ -5,8 +5,6 @@
 #ifndef DWM_CURSOR_H
 #define DWM_CURSOR_H
 
-#include <X11/X.h>
-
 typedef struct {
     Cursor cursor;
 } Cur;

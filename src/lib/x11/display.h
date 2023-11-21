@@ -8,8 +8,6 @@
 #include <X11/Xlib.h>
 
 static int xerror(Display *dpy, XErrorEvent *ee);
-
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
-
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 #endif //DWM_DISPLAY_H

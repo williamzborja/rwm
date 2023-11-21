@@ -14,21 +14,31 @@ include_directories(${X11_INCLUDE_DIR}
 
 add_executable(dwm src/main.c
         src/lib/enums.h
-        src/lib/Arg.h
+        src/lib/macros.h
+        src/lib/variables.h
+        src/lib/arg.h
         src/lib/button.h
         src/lib/monitor.h
         src/lib/client.h
-        src/lib/key.h
+        src/lib/keys.h
         src/lib/layout.h
         src/dwm.c
         src/dwm.h
         src/drw.c
         src/lib/drw.h
         src/lib/rule.h
-        src/util.c
-        src/util.h
+        src/util/util.c
+        src/util/util.h
         src/lib/cursor.h
-        src/lib/fnt.h)
+        src/lib/xft/fnt.h
+        src/lib/dwm_lib.h
+        src/lib/args.c
+        src/lib/func_impl.c
+        src/lib/x11/display.h
+        src/lib/x11/window.h
+        src/lib/x11/xevent.h
+        config.h
+    )
 
 target_link_libraries(dwm
         ${FREETYPE_LIBRARIES}

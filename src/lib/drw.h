@@ -4,7 +4,7 @@
 #define DRW_H
 
 
-#include "fnt.h"
+#include "xft/fnt.h"
 #include "cursor.h"
 
 enum { ColFg, ColBg, ColBorder }; /* Clr scheme index */

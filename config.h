@@ -1,8 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #include "src/lib/rule.h"
-#include "src/lib/key.h"
+#include "src/lib/keys.h"
 #include "src/lib/button.h"
+#include "src/lib/enums.h"
+#include "src/lib/x11/xevent.h"
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -118,3 +123,4 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+#endif /* CONFIG_H */

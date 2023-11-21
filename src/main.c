@@ -1,6 +1,4 @@
-#include "stdio.h"
 #include "dwm.h"
-
 //
 // Created by william rodriguez on 20/11/23.
 //

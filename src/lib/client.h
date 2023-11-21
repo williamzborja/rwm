@@ -6,6 +6,8 @@
 #define DWM_CLIENT_H
 
 #include "monitor.h"
+#include "rule.h"
+#include "variables.h"
 
 typedef struct Client Client;
 typedef struct Monitor Monitor;
@@ -23,7 +25,6 @@ struct Client {
     Monitor *mon;
     Window win;
 };
-
 
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
@@ -48,5 +49,10 @@ static void updatetitle(Client *c);
 static void updatewindowtype(Client *c);
 static void updatewmhints(Client *c);
 static Client *wintoclient(Window w);
+static Atom getatomprop(Client *c, Atom prop);
+static void showhide(Client *c);
+static void seturgent(Client *c, int urg);
+static void setfullscreen(Client *c, int fullscreen);
+static void sendmon(Client *c, Monitor *m);
 #endif //DWM_CLIENT_H
 

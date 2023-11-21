@@ -29,4 +29,5 @@ static void toggleview(const Arg *arg);
 static void spawn(const Arg *arg);
 static void view(const Arg *arg);
 static void zoom(const Arg *arg);
+
 #endif //DWM_ARGS_H

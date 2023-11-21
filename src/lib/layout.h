@@ -7,9 +7,15 @@
 
 #include "monitor.h"
 
+typedef struct Monitor Monitor;
 typedef struct {
     const char *symbol;
 
     void (*arrange)(Monitor *);
 } Layout;
+
+static void tile(Monitor *m);
+static void monocle(Monitor *m);
+
+
 #endif //DWM_LAYOUT_H

@@ -5,7 +5,7 @@
 #ifndef DWM_BUTTON_H
 #define DWM_BUTTON_H
 
-#include "Arg.h"
+#include "arg.h"
 
 typedef struct {
     unsigned int click;
