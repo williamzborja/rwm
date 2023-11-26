@@ -127,7 +127,6 @@ static void updatenumlockmask(void);
 
 static void updatestatus(void);
 
-
 static Monitor *wintomon(Window w);
 
 static int xerror(Display *dpy, XErrorEvent *ee);

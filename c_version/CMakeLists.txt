@@ -1,19 +1,22 @@
 cmake_minimum_required(VERSION 3.26)
-project(dwm C)
+project(rwm C)
 
 set(CMAKE_C_STANDARD 23)
 set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 find_package(X11 REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(Fontconfig REQUIRED)
+
+
 
 include_directories(${X11_INCLUDE_DIR}
         ${FREETYPE_INCLUDE_DIRS}
         ${FONTCONFIG_INCLUDE_DIRS}
 )
 
-add_executable(dwm src/main.c
+add_executable(rwm src/main.c
         src/lib/enums.h
         src/lib/macros.h
         src/lib/variables.h
@@ -39,7 +42,7 @@ add_executable(dwm src/main.c
         config.h
     )
 
-target_link_libraries(dwm
+target_link_libraries(rwm
         ${FREETYPE_LIBRARIES}
         ${X11_LIBRARIES}
         ${X11_Xft_LIB}
