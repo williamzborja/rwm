@@ -1,0 +1,4 @@
+#!/bin/bash
+picom &
+exec ~/Developer/oss/rwm/c_version/build/rwm
+
