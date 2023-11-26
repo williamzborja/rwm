@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 project(dwm C)
 
 set(CMAKE_C_STANDARD 23)
+set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
 
 find_package(X11 REQUIRED)
 find_package(Freetype REQUIRED)

@@ -139,7 +139,7 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 /* configuration, allows nested code to access above variables */
 #include "../config.h"
 #include "lib/rule.h"
-#include "lib/Arg.h"
+#include "lib/arg.h"
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags {
