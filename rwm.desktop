@@ -1,8 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
-Name=rwm
-Comment=Rusty window Manager
-Exec=rwm
-Icon=rwm
-Type=XSession
-
+Name=Rwm
+Comment=improved dynamic tiling window manager
+Exec=/usr/bin/rwm

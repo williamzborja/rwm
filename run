@@ -1,4 +1,12 @@
 #!/bin/bash
 picom &
+feh --bg-fill ~/.wallpaper
+## only when in parallels tools VM
+
+prlcc &
+prldnd &
+prlcp &
+prlsga &
+prlshprof &
 exec ~/Developer/oss/rwm/c_version/build/rwm
 
