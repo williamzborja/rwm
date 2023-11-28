@@ -8,7 +8,6 @@
 #include "x11/xevent.h"
 #include "enums.h"
 #include "cursor.h"
-#include "monitor.h"
 #include "drw.h"
 
 typedef struct Monitor Monitor;

@@ -33,6 +33,11 @@ typedef struct Monitor {
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void drawbar(Monitor *m);
-
+static Monitor *createmon(void);
+static Monitor *dirtomon(int dir);
+static Monitor *recttomon(int x, int y, int w, int h);
+static void restack(Monitor *m);
+static void updatebarpos(Monitor *m);
+static Monitor *wintomon(Window w);
 
 #endif //DWM_MONITOR_H

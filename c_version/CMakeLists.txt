@@ -36,13 +36,22 @@ add_executable(rwm src/main.c
         src/lib/cursor.h
         src/lib/xft/fnt.h
         src/lib/dwm_lib.h
-        src/lib/x11/display.h
+        src/lib/x11/x_event_error.h
         src/lib/x11/window.h
         src/lib/x11/xevent.h
         config.h
     )
 
+add_executable(transient transient.c)
+
 target_link_libraries(rwm
+        ${FREETYPE_LIBRARIES}
+        ${X11_LIBRARIES}
+        ${X11_Xft_LIB}
+        Fontconfig::Fontconfig
+)
+
+target_link_libraries(transient
         ${FREETYPE_LIBRARIES}
         ${X11_LIBRARIES}
         ${X11_Xft_LIB}

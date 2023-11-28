@@ -13,4 +13,5 @@ typedef struct {
     int isfloating;
     int monitor;
 } Rule;
+
 #endif //DWM_RULE_H

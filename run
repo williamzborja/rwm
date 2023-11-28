@@ -1,12 +1,8 @@
 #!/bin/bash
 picom &
-feh --bg-fill ~/.wallpaper
 ## only when in parallels tools VM
-
-prlcc &
-prldnd &
 prlcp &
-prlsga &
-prlshprof &
+prlcc &
+feh --bg-fill ~/.wallpaper
 exec ~/Developer/oss/rwm/c_version/build/rwm
-
+# put your wallpaper in ~/.wallpaper

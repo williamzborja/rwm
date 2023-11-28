@@ -5,8 +5,6 @@
 #ifndef DWM_CLIENT_H
 #define DWM_CLIENT_H
 
-#include "monitor.h"
-#include "rule.h"
 #include "variables.h"
 
 typedef struct Client Client;
@@ -54,5 +52,6 @@ static void showhide(Client *c);
 static void seturgent(Client *c, int urg);
 static void setfullscreen(Client *c, int fullscreen);
 static void sendmon(Client *c, Monitor *m);
+static Atom getatomprop(Client *c, Atom prop);
 #endif //DWM_CLIENT_H
 

@@ -11,11 +11,15 @@ int main(void) {
 	XSizeHints h;
 	XEvent e;
 
+  // receive display
 	d = XOpenDisplay(NULL);
 	if (!d)
 		exit(1);
+
+  // set as a root default windows
 	r = DefaultRootWindow(d);
 
+  // create a windows and put it in the display in default window
 	f = XCreateSimpleWindow(d, r, 100, 100, 400, 400, 0, 0, 0);
 	h.min_width = h.max_width = h.min_height = h.max_height = 400;
 	h.flags = PMinSize | PMaxSize;
@@ -24,6 +28,7 @@ int main(void) {
 	XMapWindow(d, f);
 
 	XSelectInput(d, f, ExposureMask);
+  // start event loop
 	while (1) {
 		XNextEvent(d, &e);
 
@@ -36,7 +41,7 @@ int main(void) {
 			XSelectInput(d, t, ExposureMask);
 		}
 	}
-
+  // close display 
 	XCloseDisplay(d);
 	exit(0);
 }
